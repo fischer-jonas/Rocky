@@ -13,7 +13,7 @@ import time
 st.set_page_config(page_title="Rocky Chat", page_icon="👽")
 
 
-media_folder = os.path.join(os.path.dirname(__file__), "..", "Media")
+media_folder = os.path.join(os.path.dirname(__file__), "..", "Media","Gifs")
 gif_files = [f for f in os.listdir(media_folder) if f.endswith(".gif")]
 random_gif = random.choice(gif_files)
 if "rocky_gif" not in st.session_state:
@@ -24,6 +24,17 @@ with open(gif_path, "rb") as f:
 
 
 st.image(gif_bytes)
+
+sound_folder = os.path.join(os.path.dirname(__file__), "..", "Media", "Sound")
+sound_files = [
+    f for f in os.listdir(sound_folder)
+    if f.endswith(".mp3")
+]
+if "rocky_sounds" not in st.session_state:
+    st.session_state.rocky_sounds = random.sample(
+        sound_files,
+        k=min(5, len(sound_files))
+    )
 
 
 st.title("Talk to Rocky (English - Eridian Translator) ♪")
@@ -52,6 +63,12 @@ if user_input:
     )
 
     reply = response.json()["reply"]
+    
+    sound_choice = random.choice(sound_files)
+    sound_path = os.path.join(sound_folder, sound_choice)
+    
+    with open(sound_path, "rb") as f:
+        st.audio(f.read(), format="audio/mp3")
 
     # Assistant Message speichern
     st.session_state.messages.append({"role": "assistant", "content": reply})
