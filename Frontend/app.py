@@ -6,10 +6,25 @@ Created on Sat Apr 25 20:21:42 2026
 """
 
 import streamlit as st
+import random, os
 import requests
 import time
 
 st.set_page_config(page_title="Rocky Chat", page_icon="👽")
+
+
+media_folder = os.path.join(os.path.dirname(__file__), "..", "Media")
+gif_files = [f for f in os.listdir(media_folder) if f.endswith(".gif")]
+random_gif = random.choice(gif_files)
+if "rocky_gif" not in st.session_state:
+    st.session_state.rocky_gif = random.choice(gif_files)
+gif_path = os.path.join(media_folder, random_gif)
+with open(gif_path, "rb") as f:
+    gif_bytes = f.read()
+
+
+st.image(gif_bytes)
+
 
 st.title("Talk to Rocky (English - Eridian Translator) ♪")
 
