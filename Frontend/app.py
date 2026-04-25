@@ -68,7 +68,7 @@ if user_input:
     sound_path = os.path.join(sound_folder, sound_choice)
     
     with open(sound_path, "rb") as f:
-        st.audio(f.read(), format="audio/mp3")
+        st.audio(f.read(), format="audio/mp3",autoplay=True)
 
     # Assistant Message speichern
     st.session_state.messages.append({"role": "assistant", "content": reply})
